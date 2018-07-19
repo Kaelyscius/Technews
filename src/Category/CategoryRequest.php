@@ -24,6 +24,7 @@ class CategoryRequest
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -43,6 +44,7 @@ class CategoryRequest
     public function setSlug($slug)
     {
         $this->slug = $slug;
+
         return $this;
     }
 }
