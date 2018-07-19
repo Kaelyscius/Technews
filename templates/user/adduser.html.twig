@@ -1,0 +1,26 @@
+{% extends "layout.html.twig" %}
+
+{% set active = 'adduser' %}
+
+{% block page_title %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h3>Vos informations</h3>
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
+

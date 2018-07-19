@@ -1,0 +1,26 @@
+{% extends "layout.html.twig" %}
+
+{% set active = 'addcategory' %}
+
+{% block page_title %}
+    Rédiger un article
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h3>Créer un article</h3>
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
+

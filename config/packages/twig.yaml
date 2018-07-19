@@ -1,0 +1,9 @@
+twig:
+    paths: ['%kernel.project_dir%/templates']
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+#    pour aller chercher des données dans un repository
+#    globals:
+#        category_service: '@App\Repository\CategoryRepository'
+    form_themes:
+        - 'bootstrap_4_layout.html.twig'

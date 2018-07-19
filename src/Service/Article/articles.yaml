@@ -1,0 +1,81 @@
+data:
+    article1 :
+        id : 1
+        titre : 'Tip Aligning Digital Marketing with Business Goals and Objectives'
+        contenu : '<p>CONTENU</p>'
+        featuredimage : '3.jpg'
+        special : false
+        spotlight : true
+        datecreation : 2017-02-26 09:37:18
+        categorie:
+            id : 1
+            libelle : 'Business'
+        auteur:
+            id : 1
+            prenom : 'Hugo'
+            nom : 'LIEGEARD'
+            email : 'wf3@hl-media.fr'
+    article2 :
+        id : 2
+        titre : 'Article 2'
+        contenu : '<p>CONTENU</p>'
+        featuredimage : '2.jpg'
+        special : false
+        spotlight : true
+        datecreation : 2017-02-26 09:37:18
+        categorie:
+            id : 1
+            libelle : 'Business'
+        auteur:
+            id : 1
+            prenom : 'Hugo'
+            nom : 'LIEGEARD'
+            email : 'wf3@hl-media.fr'
+    article3 :
+        id : 3
+        titre : 'article 3'
+        contenu : '<p>CONTENU</p>'
+        featuredimage : '1.jpg'
+        special : false
+        spotlight : false
+        datecreation : 2017-02-26 09:37:18
+        categorie:
+            id : 2
+            libelle : 'Computing'
+        auteur:
+            id : 1
+            prenom : 'Hugo'
+            nom : 'LIEGEARD'
+            email : 'wf3@hl-media.fr'
+    article4 :
+        id : 4
+        titre : 'article 4'
+        contenu : '<p>CONTENU</p>'
+        featuredimage : '4.jpg'
+        special : false
+        spotlight : false
+        datecreation : 2017-02-26 09:37:18
+        categorie:
+            id : 2
+            libelle : 'Computing'
+        auteur:
+            id : 1
+            prenom : 'Hugo'
+            nom : 'LIEGEARD'
+            email : 'wf3@hl-media.fr'
+    article5 :
+        id : 5
+        titre : 'article 5'
+        contenu : '<p>CONTENU</p>'
+        featuredimage : '5.jpg'
+        special : false
+        spotlight : false
+        datecreation : 2017-02-26 09:37:18
+        categorie:
+            id : 1
+            libelle : 'Business'
+        auteur:
+            id : 1
+            prenom : 'Hugo'
+            nom : 'LIEGEARD'
+            email : 'wf3@hl-media.fr'

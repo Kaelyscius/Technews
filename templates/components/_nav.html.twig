@@ -1,0 +1,72 @@
+{#Pour définir le fichier de translation à utiliser#}
+{% trans_default_domain 'navigation' %}
+
+<!--Le underscore veut dire que l'élément est inclus dans un autre-->
+<!--menu mobile-->
+<nav class="menu-res hidden-lg hidden-md ">
+    <div class="menu-res-inner">
+        <ul>
+            <li {% if (active == 'home') %} class="current" {% endif %}><a href="index.html">{{ 'nav.home' | trans }} </a></li>
+            {% for category in  categories%}
+                <li {% if (category.slug == active) %} class="current" {% endif %}><a href="{{ path('index_category', {
+                        category: category.slug
+                    }) }}">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
+<div class="page">
+    <div class="container">
+        <!--header-->
+        <header class="header">
+            <div class="row">
+                <div class="col-md-3 col-sm-4 col-xs-12">
+                    <a href="{{ path('index') }}" class="logo">
+                        <img alt="Logo" src="{{ asset('images/logo.png') }}"/>
+                    </a>
+                </div>
+            </div>
+        </header>
+        <!--menu-->
+        <nav class="menu font-heading">
+            <div class="menu-icon hidden-lg hidden-md">
+                <i class="fa fa-navicon"></i>
+                <span>MENU</span>
+
+            </div>
+            <ul class="hidden-sm hidden-xs">
+                <li {% if (active == 'home') %} class="current" {% endif %}>
+                    <a href="{{ path('index') }}">{{ 'nav.home' | trans }} </a>
+                </li>
+                {% for category in  categories%}
+                    <li {% if (category.slug == active) %} class="current" {% endif %}><a href="{{ path('index_category', {
+                            category: category.slug
+                        }) }}">{{ category.name }}</a></li>
+                {% endfor %}
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li >
+                        <a href="{{ path('security_logout') }}">{{ 'nav.logout' | trans }} </a>
+                    </li>
+                {% else %}
+                    <li {% if (active == 'adduser') %} class="current" {% endif %}>
+                        <a href="{{ path('security_register') }}">{{ 'nav.register' | trans }} </a>
+                    </li>
+                    <li {% if (active == 'login') %} class="current" {% endif %}>
+                        <a href="{{ path('security_login') }}">{{ 'nav.login' | trans }} </a>
+                    </li>
+                {% endif %}
+
+
+            </ul>
+
+            <div class="search-icon">
+                <div class="search-icon-inner">
+                    <i class="fa fa-search"></i>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="{{ 'nav.search.placeholder' | trans }}"/>
+                    <button>{{ 'nav.search.btn  ' | trans }}</button>
+                </div>
+            </div>
+        </nav>

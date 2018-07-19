@@ -1,0 +1,7 @@
+form.register.firstname: Prénom
+form.placeholder.firstname: votre prénom
+form.register.lastname: Nom
+form.placeholder.lastname: Votre nom
+form.register.email: Email
+form.register.password: Mot de passe
+form.register.btn: Sauvegarder

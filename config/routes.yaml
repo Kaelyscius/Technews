@@ -1,0 +1,17 @@
+#index:
+#    path: /test
+#    controller: App\Controller\TechNews\DefaultController::index
+
+home:
+    path: /accueil
+    controller : Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+    defaults:
+        route: index
+        permanent: true
+
+# controller pour un template statique comme des mentions légales
+mentions_legales:
+    path: /mentions-legales
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    defaults:
+        template: static/mentionslegales.html.twig

@@ -1,0 +1,54 @@
+security:
+    encoders:
+        App\Entity\User: bcrypt
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory: { memory: ~ }
+        user_provider:
+            entity:
+                #La classe ou chercher les éléments d'authentification
+                class: App\Entity\User
+                #La propriété dont il a besoin pour matcher login et mdp
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            form_login:
+                #Defini dans le security controller login()
+                login_path: security_login
+                check_path: security_login
+                #Name du champ email dans le formulaire d'auth
+                username_parameter: app_login[email]
+                #Name du champ password dans le formulaire d'auth
+                password_parameter: app_login[password]
+            provider: user_provider
+            logout_on_user_change: true
+            logout:
+                #Il se charge tout seul de la déconnexion
+                path: /deconnexion
+                #Redirection après logout
+                target: /
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+#         - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_AUTHOR: ROLE_USER
+        ROLE_EDITOR: ROLE_AUTHOR
+        ROLE_CORRECTOR: ROLE_AUTHOR
+        ROLE_PUBLISHER: [ROLE_EDITOR, ROLE_CORRECTOR]
+        #Defini que le role admin a déjà le role auteur, qui contient le role user. Mais qu'en plus il peut switch
+        ROLE_ADMIN: ROLE_PUBLISHER

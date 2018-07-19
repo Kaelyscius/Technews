@@ -1,0 +1,217 @@
+{% trans_default_domain 'sidebar' %}
+<!--colright-->
+<div class="col-md-4 col-sm-12">
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+        <h3 class="text-center">{{ 'sidebar.hello' | trans }} {{ app.user.firstname }}</h3>
+        <h4 class="text-center">
+
+            {% if is_granted('ROLE_ADMIN') %}
+                {% trans from 'roles' %}role.admin{% endtrans %}
+            {% elseif is_granted('ROLE_PUBLISHER') %}
+                {% trans from 'roles' %}role.publisher{% endtrans %}
+            {% elseif is_granted('ROLE_CORRECTOR') %}
+                {% trans from 'roles' %}role.corrector{% endtrans %}
+            {% elseif is_granted('ROLE_EDITOR') %}
+                {% trans from 'roles' %}role.editor{% endtrans %}
+            {% elseif is_granted('ROLE_AUTHOR') %}
+                {% trans from 'roles' %}role.author{% endtrans %}
+            {% else %}
+                {% trans from 'roles' %}role.member{% endtrans %}
+            {% endif %}
+
+        </h4>
+
+        <ul class="list-group">
+
+            {% if article is defined and article and ( article.user.id == app.user.id and is_granted('ROLE_AUTHOR') )  %}
+                <li class="list-group-item">
+                    <a href="{{ path('article_edit', { 'id' : article.id }) }}">
+                        {{ 'sidebar.article.edit' | trans }}
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_AUTHOR') %}
+                <li class="list-group-item">
+                    <a href="{{ path('article_add') }}">
+                        {{ 'sidebar.article.new' | trans }}
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('article_published') }}">
+                        {{ 'sidebar.article.published' | trans }}
+                    </a>
+                    <span class="badge">{{ publishedArticles() }}</span>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('article_pending') }}">
+                        {{ 'sidebar.article.pending' | trans }}
+                    </a>
+                    <span class="badge">{{ pendingArticles() }}</span>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_EDITOR') %}
+                <li class="list-group-item">
+                    <a href="{{ path('article_approval') }}">
+                        {{ 'sidebar.article.approval' | trans }}
+                    </a>
+                    <span class="badge">{{ approvalArticles() }}</span>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_CORRECTOR') %}
+                <li class="list-group-item">
+                    <a href="{{ path('article_corrector') }}">
+                        {{ 'sidebar.article.correction' | trans }}
+                    </a>
+                    <span class="badge">{{ correctorArticles() }}</span>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_PUBLISHER') %}
+                <li class="list-group-item">
+                    <a href="{{ path('article_publisher') }}">
+                        {{ 'sidebar.article.publisher' | trans }}
+                    </a>
+                    <span class="badge">{{ publisherArticles() }}</span>
+                </li>
+            {% endif %}
+
+            <li class="list-group-item">
+                <a href="{{ path('security_logout') }}">
+                    {% trans from 'navigation' %}nav.logout{% endtrans %}
+                </a>
+            </li>
+
+        </ul>
+
+    {% endif %}
+
+    <!--tab popular-->
+    <ul role="tablist" class="tab-popular">
+        <li class="active">
+            <a href="#tab1" role="tab" data-toggle="tab">
+                {{ 'sidebar.lastpublications' | trans }}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="tab1">
+            <ul class="list-news-popular">
+                {% for article in articles %}
+                    <li>
+                        <a href="{{ path('index_article', {
+                            'category'  : article.category.slug,
+                            'slug'      : article.slug,
+                            'id'        : article.id
+                        }) }}">
+                            <img alt="{{ article.title }}" src="{{ asset('images/product/'~article.featuredImage) }}">
+                        </a>
+                        <h3><a href="{{ path('index_article', {
+                                'category'  : article.category.slug,
+                                'slug'      : article.slug,
+                                'id'        : article.id
+                            }) }}">{{ article.title }}</a></h3>
+                        <div class="meta-post">
+                            <a href="#">
+                                {{ article.user.firstname ~ ' ' ~ article.user.lastname }}
+                            </a>
+                            <em></em>
+                            <span>
+                                {{ article.createdDate | date('d/m/Y') }}
+                            </span>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+
+    <!-- subcribe box-->
+    <div class="subcribe-box">
+        <h3>{{ 'sidebar.newsletter.title' | trans }}</h3>
+        <p>{{ 'sidebar.newsletter.description' | trans }}</p>
+        <input type="text" placeholder="{{ 'sidebar.newsletter.placeholder' | trans }}" />
+        <button class="my-btn">{{ 'sidebar.newsletter.btn' | trans }}</button>
+    </div>
+    <!-- connect us-->
+    <div class="connect-us">
+        <div class="widget-title">
+			<span>
+				{{ 'sidebar.social.followus' | trans }}
+			</span>
+        </div>
+        <ul class="list-social-icon">
+            <li>
+                <a href="#" class="facebook">
+                    <i class="fa fa-facebook"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="twitter">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="google">
+                    <i class="fa fa-google"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="youtube">
+                    <i class="fa fa-youtube-play"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="pinterest">
+                    <i class="fa fa-pinterest-p"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="rss">
+                    <i class="fa fa-rss"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- special post-->
+    <div class="connect-us">
+        <div class="widget-title">
+			<span>
+				{{ 'sidebar.special.title' | trans }}
+			</span>
+        </div>
+        <div class="list-special">
+            {% for article in specials %}
+                <article class="news-two-large">
+                    <a href="{{ path('index_article', {
+                        'category'  : article.category.slug,
+                        'slug'      : article.slug,
+                        'id'        : article.id
+                    }) }}">
+                        <img alt="{{ article.title }}" src="{{ asset('images/product/'~article.featuredImage) }}">
+                    </a>
+                    <h3><a href="{{ path('index_article', {
+                            'category'  : article.category.slug,
+                            'slug'      : article.slug,
+                            'id'        : article.id
+                        }) }}">{{ article.title }}</a></h3>
+                    <div class="meta-post">
+                        <a href="#">
+                            {{ article.user.firstname ~ ' ' ~ article.user.lastname }}
+                        </a>
+                        <em></em>
+                        <span>
+                            {{ article.createdDate | date('d/m/Y') }}
+                        </span>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</div>

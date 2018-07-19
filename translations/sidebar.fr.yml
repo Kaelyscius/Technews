@@ -1,0 +1,17 @@
+sidebar.hello: Bonjour
+sidebar.article.edit: 'Editer article'
+sidebar.article.new: 'Rediger un acticle'
+sidebar.lastpublications: 'Dernière publications'
+sidebar.newsletter.title: 'Infos lettre'
+sidebar.newsletter.description: 'Incrivez-vous pour recevoir nos derniers articles'
+sidebar.newsletter.placeholder: 'votre email'
+sidebar.newsletter.btn: 'Je m''inscris'
+sidebar.social.followus: Suivez-nous
+sidebar.special.title: 'En avant'
+sidebar:
+  article:
+    published: 'Mes articles publiés'
+    pending: 'Mes articles en attentes'
+    approval: 'En attente de validation'
+    publisher: 'En attente de publication'
+    correction: 'En attente de correction'

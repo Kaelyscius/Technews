@@ -1,0 +1,132 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    {{ article.title | title}}
+{% endblock %}
+
+{% block stylesheets %}
+    <!--Permet de rajouter un élément dans le bloc parent (Marche pour tout les types de block)-->
+    {{ parent() }}
+    {#<link href="index.css" rel="stylesheet" />#}
+{% endblock %}
+
+{% set active = article.category.slug %}
+
+
+{% block content %}
+    <div class="row">
+        <!--colleft-->
+        <div class="col-md-8 col-sm-12">
+            <!--post-detail-->
+
+            {% for message in app.flashes('notice')  %}
+                <div class="alert alert-info">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <article class="post-detail">
+                <h1>{{ article.title | title}}</h1>
+                <div class="meta-post">
+                    <a href="#">
+                        {{ article.user.firstname ~ ' '~ article.user.lastname}}
+                    </a>
+                    <em></em>
+                    <span>
+                               {{ article.createdDate | date("Y-m-d h:m:s") }}
+                            </span>
+                </div>
+
+                <img alt="{{ article.title }}"
+                     src="{{ asset('images/product/'~article.featuredImage) }}"
+                     class="img-responsive" />
+
+                {{ article.content | raw }}
+
+                <h5 class="text-right font-heading"><strong>{{ article.user.firstname ~ ' '~ article.user.lastname}}</strong> </h5>
+
+            </article>
+            <!--social-detail-->
+            <div class="social-detail">
+                <span>   Suivez_nous</span>
+
+                <ul class="list-social-icon">
+                    <li>
+                        <a href="#" class="facebook">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="twitter">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="google">
+                            <i class="fa fa-google"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="youtube">
+                            <i class="fa fa-youtube-play"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="pinterest">
+                            <i class="fa fa-pinterest-p"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="rss">
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <!--related post-->
+            <div class="detail-caption">
+                <span>  Suggestions</span>
+            </div>
+            <section class="spotlight-thumbs spotlight-thumbs-related">
+                <div class="row">
+                    {% for article in suggestions %}
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="spotlight-item-thumb">
+                                <div class="spotlight-item-thumb-img">
+                                    <a href="{{ path('index_article', {
+                                        'category'  : article.category.slug,
+                                        'slug'      : article.slug,
+                                        'id'        : article.id
+                                    }) }}">
+                                        <img alt="{{ article.title }}" src="{{ asset('images/product/'~article.featuredImage) }}">
+                                    </a>
+                                    <a href="{{ path('index_category', {
+                                        'category' : article.category.slug }) }}" class="cate-tag">{{ article.category.name }}</a>
+                                </div>
+                                <h3><a href="#">{{ article.title }}</a></h3>
+                                <div class="meta-post">
+                                    <a href="{{ path('index_article', {
+                                        'category'  : article.category.slug,
+                                        'slug'      : article.slug,
+                                        'id'        : article.id
+                                    }) }}">
+                                        {{ article.user.firstname ~ ' ' ~ article.user.lastname }}
+                                    </a>
+                                    <em></em>
+                                    <span>
+                                        {{ article.createdDate | date('d/m/Y') }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </section>
+        </div>
+        {{ render(controller('App\\Controller\\TechNews\\IndexController::sidebar', {'article': article})) }}
+
+    </div>
+
+{% endblock %}

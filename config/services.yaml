@@ -1,0 +1,83 @@
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: 'fr'
+    featuredimage_directory: '%kernel.project_dir%/public/images/product'
+#Personaliser un service
+fos_ck_editor:
+    configs:
+        my_config:
+            toolbar: full
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    App\Article\ArticleRequestHandler:
+        # On demande une instance d'entityManagerInterface et le paramettre donnée plus haut pour avoir l'info sur le dossier
+#        arguments: ['@Doctrine\ORM\EntityManagerInterface', '@App\Article\ArticleFactory', '%featuredimage_directory%','@Symfony\Component\Asset\Packages', '@Symfony\Component\Workflow\Registry']
+        $assetsDirectory: '%featuredimage_directory%'
+    App\Article\CategoryRequestHandler:
+            # On demande une instance d'entityManagerInterface et le paramettre donnée plus haut pour avoir l'info sur le dossier
+            arguments: ['@Doctrine\ORM\EntityManagerInterface', '@App\Category\CategoryFactory']
+    App\Article\UserRequestHandler:
+                # On demande une instance d'entityManagerInterface et le paramettre donnée plus haut pour avoir l'info sur le dossier
+                arguments: ['@Doctrine\ORM\EntityManagerInterface', '@App\Category\UserFactory']
+    App\Article\ArticleRequestUpdateHandler:
+         # On demande une instance d'entityManagerInterface et le paramettre donnée plus haut pour avoir l'info sur le dossier
+          arguments: ['@Doctrine\ORM\EntityManagerInterface', '%featuredimage_directory%']
+    # Solution 1
+    #App\Article\ArticleCatalogue:
+    #      calls:
+              #On demande à Symfony d'appeler une méthode et le model à injecter. Afin de ne pas avoir a faire un constructeur
+    #         - ['addSource', ['@App\Article\Source\DoctrineSource']]
+    #         - ['addSource', ['@App\Article\Source\YamlSource']]
+
+    # Solution 2
+#    App\Article\Source\YamlSouce:
+#        tags:
+#            - app.article_source
+#
+#    App\Article\Source\DoctrineSource:
+#        tags:
+#            - app.article_source
+#
+#    App\Article\Source\ApiSource:
+#        tags:
+#            - app.article_source
+
+    #Solution 3 inclure automatiquement toute les classes héritant de ArticleAbstractSource
+    _instanceof:
+        App\Article\Source\ArticleAbstractSource:
+            tags:
+                - app.article_source
+    App\Article\ArticleCatalogue:
+        calls:
+            - ['setSources', [!tagged app.article_source]]
+
+    App\DataCollector\SourcesCollector:
+        tags:
+            -
+                name: data_collector
+                template: 'collector/sources.html.twig'
+                id: 'app.sources_collector'
+        public: false

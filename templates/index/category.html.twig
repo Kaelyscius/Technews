@@ -1,0 +1,71 @@
+{% extends "layout.html.twig" %}
+
+
+{% block page_title %}
+    {{ category.name | title }}
+{% endblock %}
+
+{% set active = category.slug %}
+
+{% block content %}
+    <div class="row">
+        <!--colleft-->
+        <div class="col-md-8 col-sm-12">
+            {% if articles is not empty %}
+
+
+            <div class="box-caption">
+                <span>{{ category.name }}</span>
+                {#<span>{{ artices[0].category.name }}</span>#}
+                {#via app de twig#}
+                {#<span>{{ app.request.get('category') }}</span>#}
+
+            </div>
+            <!--list-news-cate-->
+            <div class="list-news-cate">
+                {% for article in articles  %}
+                    <article class="news-cate-item">
+                        <div class="row">
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                <a href="{{ path('index_article', {
+                                    'category' : article.category.slug,
+                                    'slug' : article.slug,
+                                    'id' : article.id,
+
+                                }) }}">
+                                    <img alt="{{ article.title }}" src="{{ asset('images/product/'~article.featuredImage) }}">
+                                </a>
+                            </div>
+                            <div class="col-md-7 col-sm-7 col-xs-12">
+                                <h3><a href="{{ path('index_article', {
+                                        'category' : article.category.slug,
+                                        'slug' : article.slug,
+                                        'id' : article.id,
+
+                                    }) }}">{{ article.title }}</a></h3>
+                                <div class="meta-post">
+                                    <a href="#">
+                                        {{ article.user.firstname ~ ' '~ article.user.lastname}}
+                                    </a>
+                                    <em></em>
+                                    <span>
+                                        {{ article.createdDate | date("Y-m-d h:m:s") }}
+                                    </span>
+                                </div>
+                                {{ article.content | summary | raw}}
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+                <div class="alert alert-danger"><strong>Aucune publication pour le moment</strong></div>
+            {% endif %}
+        </div>
+        {{ render(controller('App\\Controller\\TechNews\\IndexController::sidebar')) }}
+
+    </div>
+
+{% endblock %}
